@@ -76,26 +76,14 @@ public class TempController {
 	public void saveTemp(@Valid @RequestBody TempDTO temp) {
 		tempService.create(temp);
 	}
-//	
-//	// PATCH "/temps/{id}"
-//	@PatchMapping("/{id}")
-//	public ResponseEntity<Temp> updateTemp(@PathVariable("id") long id) {
-//		Temp _temp = tempRepository.findById(id)
-//				.orElseThrow(() -> new ResourceNotFoundException("Not found Temp with id = " + id));
-//		
-//		_temp.setFirstName(_temp.getFirstName());
-//		_temp.setLastName(_temp.getLastName());
-//		
-//		return new ResponseEntity<>(tempRepository.save(_temp), HttpStatus.OK);
-//	}
-//	
-//	// DELETE("/temps/{id}")
-//	@DeleteMapping("/{id}")
-//	public ResponseEntity<HttpStatus> deleteTemp(@PathVariable("id") long id) {
-//		tempRepository.deleteById(id);
-//		
-//		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//	}
+
+	// DELETE("/temps/{id}")
+	@DeleteMapping("/{id}")
+	public ResponseEntity<HttpStatus> deleteTemp(@PathVariable("id") long id) {
+		tempRepository.deleteById(id);
+		
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
 	
 //	// List temps that are available for a job based on the jobs date range
 //	@GetMapping("?jobId={jobId}")
