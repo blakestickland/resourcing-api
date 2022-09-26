@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,9 +31,13 @@ public class TempService {
 		return tempRepository.findById(id);
 	}
 	
-	public void create(TempDTO temp) {
-		Temp dbTemp  = new Temp(temp.getFirstName(), temp.getLastName());
-		tempRepository.save(dbTemp);
+	public ResponseEntity<Object> create(TempDTO temp) {
+		Temp dbTemp  = new Temp(temp.getFirstName(), temp.getLastName(), temp.getJobs());
+		Temp savedTemp = tempRepository.save(dbTemp);
+		if (tempRepository.findById(savedTemp.getId()).isPresent()) {
+			return ResponseEntity.accepted().body("Successfully Created Temp and Jobs");
+		} else 
+			return ResponseEntity.unprocessableEntity().body("Failed to Create specified Temp");
 	}
 	
 	public void deleteTemp(@PathVariable long id) {

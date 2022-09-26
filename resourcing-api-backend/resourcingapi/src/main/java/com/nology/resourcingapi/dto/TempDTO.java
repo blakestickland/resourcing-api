@@ -14,8 +14,8 @@ public class TempDTO {
 	@NotNull
 	private String lastName;
 	
-//	// one to many relationship
-//	private Set<Job> jobs;
+	// one to many relationship
+	private Set<Job> jobs;
 	
 	
 	public String getFirstName() {
@@ -30,12 +30,12 @@ public class TempDTO {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-//	public Set<Job> getJobs() {
-//		return jobs;
-//	}
-//	public void setJobs(Set<Job> jobs) {
-//		this.jobs = jobs;
-//	}
+	public Set<Job> getJobs() {
+		return jobs;
+	}
+	public void setJobs(Set<Job> jobs) {
+		this.jobs = jobs;
+	}
 	
 
 }
