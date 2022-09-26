@@ -45,9 +45,9 @@ public class Temp {
 //	@JsonIgnore
 //	private Set<Job> jobs;
 	
-//	@OneToMany(mappedBy="temp")
+	@OneToMany(mappedBy="temp", cascade = CascadeType.ALL)
 //	@JoinColumn(name = "fk_temp_id", referencedColumnName = "id")
-//	private Set<Job> jobs = new HashSet<Job>();
+	private Set<Job> jobs = new HashSet<Job>();
 //	private List<Job> jobs;
 	
 	
@@ -57,12 +57,12 @@ public class Temp {
 		this.lastName = lastName;
 //		this.rating = rating;
 	}
-//	
-//	public Temp(String firstName, String lastName, List<Job> jobs) {
-//		this.firstName = firstName;
-//		this.lastName = lastName;
-//		this.jobs = jobs;
-//	}
+	
+	public Temp(String firstName, String lastName, Set<Job> jobs) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.jobs = jobs;
+	}
 	
 	public Temp() {
 		
@@ -95,14 +95,17 @@ public class Temp {
 		this.lastName = lastName;
 	}
 
+	public Set<Job> getJobs() {
+		return jobs;
+	}
 
-//	public List<Job> getJobs() {
-//		return jobs;
-//	}
-//
-//	public void setJobs(List<Job> jobs) {
-//		this.jobs = jobs;
-//	}
+	public void setJobs(Set<Job> jobs) {
+		this.jobs = jobs;
+		
+//		for(Job j : jobs) {
+//			j.setTemp(this);
+//		}
+	}
 
 	
 }

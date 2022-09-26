@@ -13,9 +13,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.springframework.lang.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "jobs")
@@ -48,13 +52,24 @@ public class Job {
 //	@ManyToOne(fetch = FetchType.LAZY)
 //	@JoinColumn(name = "temp_id", nullable = false)
 ////	@OnDelete(action = OnDeleteAction.CASCADE) // we don't need the jobs to be deleted at same time as a Temp
-//	@JsonIgnore
 //	private Temp temp;
 	
-//	@ManyToOne (cascade=CascadeType.ALL)
-//	@ManyToOne
-//	@JoinColumn(name="fk_temp")
-//	private Temp temp;
+	@JsonIgnore
+	@ManyToOne (cascade=CascadeType.ALL)
+	@JoinColumn(name="temp_id")
+//	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	private Temp temp;
+	
+	@Transient
+	@Nullable
+	private String tempFirstName;
+	
+	public String getTempFirstName() {
+		return getTemp().getFirstName();
+	}
+	public void setTempFirstName(String tempFirstName) {
+		this.tempFirstName = tempFirstName;
+	}
 	
 	public Job(String name, Date startDate, Date endDate) {
 		this.name = name;
@@ -69,12 +84,12 @@ public class Job {
 //		this.assigned = assigned;
 //	}
 //	
-//	public Job(String name, Date startDate, Date endDate, Temp temp) {
-//		this.name = name;
-//		this.startDate = startDate;
-//		this.endDate = endDate;
-//		this.temp = temp;
-//	}
+	public Job(String name, Date startDate, Date endDate, Temp temp) {
+		this.name = name;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.temp = temp;
+	}
 //	
 //	public Job(String name, Date startDate, Date endDate, boolean assigned, Temp temp) {
 //		this.name = name;
@@ -128,13 +143,13 @@ public class Job {
 //		this.assigned = assigned;
 //	}
 //
-//	public Temp getTemp() {
-//		return temp;
-//	}
-//
-//	public void setTemp(Temp temp) {
-//		this.temp = temp;
-//	}
+	public Temp getTemp() {
+		return temp;
+	}
+
+	public void setTemp(Temp temp) {
+		this.temp = temp;
+	}
 	
 	
 }

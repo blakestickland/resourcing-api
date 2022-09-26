@@ -24,6 +24,7 @@ import com.nology.resourcingapi.dto.JobDTO;
 import com.nology.resourcingapi.dto.TempDTO;
 import com.nology.resourcingapi.entity.Temp;
 import com.nology.resourcingapi.exception.ResourceNotFoundException;
+import com.nology.resourcingapi.repository.JobRepository;
 import com.nology.resourcingapi.repository.TempRepository;
 import com.nology.resourcingapi.service.TempService;
 
@@ -33,10 +34,17 @@ import com.nology.resourcingapi.service.TempService;
 public class TempController {
 	
 	@Autowired
-	TempService	tempService;
+	private TempService	tempService;
 	
 	@Autowired
-	TempRepository tempRepository;
+	private TempRepository tempRepository;
+	
+	private JobRepository jobRepository; 
+	
+	@Autowired TempController(TempRepository tempRepository, JobRepository jobRepository) {
+		this.tempRepository = tempRepository;
+		this.jobRepository = jobRepository;
+	}
 	
 	
 	// GET "/temps"
