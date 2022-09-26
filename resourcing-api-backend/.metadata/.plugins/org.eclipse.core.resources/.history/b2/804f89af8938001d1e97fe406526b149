@@ -1,0 +1,9 @@
+package com.nology.resourcingapi;
+
+public class TempDTO {
+	private String firstName;
+	private String lastName;
+	// one to many relationship
+	private Job[] jobs;
+
+}

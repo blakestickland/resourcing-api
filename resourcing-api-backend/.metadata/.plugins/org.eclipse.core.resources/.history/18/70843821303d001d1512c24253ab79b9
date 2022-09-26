@@ -1,0 +1,30 @@
+package com.example.jpaqueryexample;
+
+import java.util.Arrays;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class JobController {
+	
+	@Autowired
+	JobService jobService;
+	
+	@Autowired
+	JobRepository jobRepo;
+	
+	@GetMapping("/jobs")
+	public List<Job> getJobs() {
+		return jobService.all();
+	}
+	
+	@GetMapping("/jobs/name")
+	public ResponseEntity<List<Job>> getJobsByNameIn() {
+		return new ResponseEntity<List<Job>>(jobRepo.findByNameIn(Arrays.asList("Cleaning", "Washing")), HttpStatus.OK);
+	}
+}

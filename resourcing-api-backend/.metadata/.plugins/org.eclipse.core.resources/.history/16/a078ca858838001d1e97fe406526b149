@@ -1,0 +1,14 @@
+package com.nology.resourcingapi;
+
+import javax.persistence.Entity;
+
+@Entity
+public class Temp {
+	private Long id;
+	private String firstName;
+	private String lastName;
+	// one to many relationship
+	private Job[] jobs;
+}
+
+

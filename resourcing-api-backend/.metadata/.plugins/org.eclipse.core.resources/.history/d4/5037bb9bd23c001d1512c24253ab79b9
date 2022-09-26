@@ -1,0 +1,16 @@
+package com.example.jpaqueryexample;
+
+import javax.persistence.Entity;
+
+@Entity
+public class Employee {
+	private Long id;
+	private String fullname;
+	
+	public Employee(String name); {
+		this.fullname = name;
+	}
+	
+	public Employee() {};
+
+}

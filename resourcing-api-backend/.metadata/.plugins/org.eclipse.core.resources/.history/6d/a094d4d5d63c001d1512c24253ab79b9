@@ -1,0 +1,18 @@
+package com.example.jpaqueryexample;
+
+import javax.validation.constraints.NotNull;
+
+public class EmployeeDTO {
+	@NotNull
+	private String fullname;
+
+	public String getFullname() {
+		return fullname;
+	}
+
+	public void setFullname(String fullname) {
+		this.fullname = fullname;
+	}
+	
+	
+}

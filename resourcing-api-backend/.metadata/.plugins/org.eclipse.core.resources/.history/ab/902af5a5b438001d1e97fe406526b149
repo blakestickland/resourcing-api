@@ -1,0 +1,9 @@
+package com.nology.resourcingapi.service;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.nology.resourcingapi.entity.Job;
+
+public interface ResourceRepository extends JpaRepository<Job, Long> {
+
+}

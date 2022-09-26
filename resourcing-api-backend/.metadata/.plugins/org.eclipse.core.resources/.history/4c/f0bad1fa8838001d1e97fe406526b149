@@ -1,0 +1,16 @@
+package com.nology.resourcingapi;
+
+import java.util.Date;
+
+import javax.persistence.Entity;
+
+@Entity
+public class Job {
+	private Long id;
+	private String name;
+	private Date startDate;
+	private Date endDate;
+	// one to one relationship -- job can only have one temp assigned to it
+	private Temp temp;
+	
+}
