@@ -9,8 +9,8 @@ INDEX VERSION 1.131+/Users/malaisons/dev/resourcing-api/resourcing-api-backend/.
 2968572759.index
 1821565594.index
 4101212566.index
-1950935501.index
 2920053507.index
+1950935501.index
 1307152497.index
 1560602012.index
 2838802133.index
@@ -66,6 +66,7 @@ INDEX VERSION 1.131+/Users/malaisons/dev/resourcing-api/resourcing-api-backend/.
 2907381712.index
 2185018187.index
 2584157447.index
+3205210053.index
 2959814781.index
 1974804645.index
 1583402940.index
@@ -84,8 +85,8 @@ INDEX VERSION 1.131+/Users/malaisons/dev/resourcing-api/resourcing-api-backend/.
 3448184146.index
 2134706987.index
 1821721423.index
-532915901.index
 2107304347.index
+532915901.index
 2205297730.index
 407850003.index
 1269006050.index
@@ -111,8 +112,8 @@ INDEX VERSION 1.131+/Users/malaisons/dev/resourcing-api/resourcing-api-backend/.
 3600266078.index
 268168959.index
 1783065086.index
-2739504534.index
 4039837294.index
+2739504534.index
 1917256978.index
 1325861411.index
 4268669832.index

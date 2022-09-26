@@ -6,4 +6,6 @@
     <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="java.util.ArrayList"/>
     <fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JsonFormat"/>
+    <fullyQualifiedTypeName name="com.nology.resourcingapi.entity.Temp"/>
+    <fullyQualifiedTypeName name="com.nology.resourcingapi.dto.TempDTO"/>
 </qualifiedTypeNameHistroy>

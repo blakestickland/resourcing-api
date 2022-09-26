@@ -36,7 +36,7 @@ public class JobService {
 		jobRepository.findById(id).orElseThrow(() -> 
 			new ResourceNotFoundException("Job not found with id :" + id));
 		
-		jobRepository.deleteById(id);
+		jobRepository.deleteById(id);;
 	}
 
 }

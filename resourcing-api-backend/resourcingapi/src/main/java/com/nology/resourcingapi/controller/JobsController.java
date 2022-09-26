@@ -58,25 +58,26 @@ public class JobsController {
 	public void saveJob(@Valid @RequestBody JobDTO job) {
 		jobService.create(job);
 	}
-//	
-//	@PatchMapping("/{id}")
-//	public ResponseEntity<Job> updateJob(@PathVariable("id") long id, @RequestBody Job jobRequest) {
-//		Job job = jobService.getJob(id)
-//				.orElseThrow(() -> new ResourceNotFoundException("Not found Job with id " + id));
+	
+	@PatchMapping("/{id}")
+	public ResponseEntity<Job> updateJobPartially(@PathVariable("id") long id, @Valid @RequestBody Job jobRequest) {
+		Job job = jobService.getJob(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Job with id: " + id + "not found"));
+		
+		job.setName(jobRequest.getName());
+		job.setStartDate(jobRequest.getStartDate());
+		job.setEndDate(jobRequest.getEndDate());
+//		job.setAssigned(jobRequest.isAssigned());
+//		job.setTemp(jobRequest.getTemp());
 //		
-//		job.setName(jobRequest.getName());
-//		job.setStartDate(jobRequest.getStartDate());
-//		job.setEndDate(jobRequest.getEndDate());
-////		job.setAssigned(jobRequest.isAssigned());
-////		job.setTemp(jobRequest.getTemp());
-////		
-//		return new ResponseEntity<>(jobRepository.save(job), HttpStatus.OK);
-//	}
-//	
-//	@DeleteMapping("/{id}")
-//	public ResponseEntity<HttpStatus> deleteJob(@PathVariable("id") long id) {
-//		jobService.deleteJob(id);
-//		
-//		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//	}
+		final Job updatedJob = jobRepository.save(job);
+		return ResponseEntity.ok(updatedJob);
+	}
+	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<HttpStatus> deleteJob(@PathVariable("id") long id) {
+		jobService.deleteJob(id);
+		
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
 }
