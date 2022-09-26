@@ -1,0 +1,5 @@
+package com.nology.resourcingapi.service;
+
+public class TempService {
+
+}

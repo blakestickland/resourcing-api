@@ -1,0 +1,23 @@
+package com.nology.resourcingapi;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+@Transactional
+public class JobService {
+	@Autowired
+	private ResourceRepository repository;
+	
+	public List<Job> all() {
+		return repository.findAll();
+	}
+	
+	public void create(JobDTO job) {
+		Job j  = new Job(job.getName(), job.getStartDate(), job.getEndDate(), job.getTemp());
+		repository.save(j);
+	}
+}

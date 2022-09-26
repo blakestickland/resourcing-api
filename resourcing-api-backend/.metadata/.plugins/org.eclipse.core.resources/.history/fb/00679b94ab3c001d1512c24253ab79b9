@@ -1,0 +1,34 @@
+package com.nology.resourcingapi;
+
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import com.nology.resourcingapi.entity.Job;
+import com.nology.resourcingapi.entity.Temp;
+
+@SpringBootApplication
+public class ResourcingapiApplication {
+
+//	@SuppressWarnings("unchecked")
+	public static void main(String[] args) {
+		SpringApplication.run(ResourcingapiApplication.class, args);
+		
+		Job job = new Job();
+		job.setId(101L);
+		job.setAssigned(false);
+		job.setName("cleaning");
+		job.setStartDate(new Date(1532516399000L));
+		job.setEndDate(new Date(1532516499000L));
+		job.setTemp(null);
+		
+		Temp t = new Temp();
+		t.setId(201L);
+		t.setFirstName("Tom");
+		t.setLastName("Sawyer");
+//		t.setJobs((List<Job>) job);
+	}
+
+}

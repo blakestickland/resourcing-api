@@ -1,0 +1,5 @@
+package com.nology.resourcingapi.dto;
+
+public class ResourceDTO {
+
+}

@@ -1,0 +1,5 @@
+package com.nology.resourcingapi.controller;
+
+public class JobsController {
+
+}
