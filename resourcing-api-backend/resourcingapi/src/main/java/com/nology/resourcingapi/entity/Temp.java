@@ -34,20 +34,11 @@ public class Temp {
 	@Column (name = "last_name")
 	private String lastName;
 	
-//	@Column(name = "rating")
-//	private int rating;
-	
-//	// one to many relationship -- many jobs can be assigned to one temp
-//	@OneToMany(fetch = FetchType.LAZY, mappedBy="temp")
-////		@JoinColumn(name = "temp_id", nullable = false)
-////	@JoinColumn(name = "job_id")
-////		@OnDelete(action = OnDeleteAction.CASCADE) // we don't need the jobs to be deleted at same time as a Temp
-//	@JsonIgnore
-//	private Set<Job> jobs;
-	
-	@OneToMany(mappedBy="temp", cascade = CascadeType.ALL)
-//	@JoinColumn(name = "fk_temp_id", referencedColumnName = "id")
-	private Set<Job> jobs = new HashSet<Job>();
+	@OneToMany(mappedBy="temp", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//	@OneToMany(cascade = CascadeType.ALL)
+//	@JoinColumn(name="temp_id")
+	private Set<Job> jobs;
+//	private Set<Job> jobs = new HashSet<Job>();
 //	private List<Job> jobs;
 	
 	
@@ -55,7 +46,6 @@ public class Temp {
 	public Temp(String firstName, String lastName) {
 		this.firstName = firstName;
 		this.lastName = lastName;
-//		this.rating = rating;
 	}
 	
 	public Temp(String firstName, String lastName, Set<Job> jobs) {

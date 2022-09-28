@@ -6,6 +6,14 @@
     <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="java.util.ArrayList"/>
     <fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JsonFormat"/>
-    <fullyQualifiedTypeName name="com.nology.resourcingapi.entity.Temp"/>
     <fullyQualifiedTypeName name="com.nology.resourcingapi.dto.TempDTO"/>
+    <fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JsonProperty"/>
+    <fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JsonProperty.Access"/>
+    <fullyQualifiedTypeName name="com.nology.resourcingapi.repository.JobRepository"/>
+    <fullyQualifiedTypeName name="com.nology.resourcingapi.entity.Job"/>
+    <fullyQualifiedTypeName name="java.util.Optional"/>
+    <fullyQualifiedTypeName name="com.nology.resourcingapi.entity.Temp"/>
+    <fullyQualifiedTypeName name="org.springframework.http.ResponseEntity"/>
+    <fullyQualifiedTypeName name="javax.persistence.Transient"/>
+    <fullyQualifiedTypeName name="org.springframework.lang.Nullable"/>
 </qualifiedTypeNameHistroy>

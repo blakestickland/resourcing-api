@@ -49,27 +49,30 @@ public class Job {
 //	private boolean assigned;
 	
 //	// many to one relationship -- many jobs can be assigned to one temp
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "temp_id", nullable = false)
-////	@OnDelete(action = OnDeleteAction.CASCADE) // we don't need the jobs to be deleted at same time as a Temp
-//	private Temp temp;
-	
 	@JsonIgnore
-	@ManyToOne (cascade=CascadeType.ALL)
+	@ManyToOne (cascade=CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name="temp_id")
 //	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private Temp temp;
 	
-	@Transient
-	@Nullable
-	private String tempFirstName;
-	
-	public String getTempFirstName() {
-		return getTemp().getFirstName();
-	}
-	public void setTempFirstName(String tempFirstName) {
-		this.tempFirstName = tempFirstName;
-	}
+//	
+//	@Transient
+//	@Nullable
+//	private Temp assignedTemp;
+////	private String tempFirstName;
+//	
+//	public long getAssignedTemp() {
+//		return getTemp().getId();
+//	}
+//	public void setAssignedTemp(Temp assignedTemp) {
+//		this.assignedTemp = assignedTemp;
+//	}
+//	public String getTempFirstName() {
+//		return getTemp().getFirstName();
+//	}
+//	public void setTempFirstName(String tempFirstName) {
+//		this.tempFirstName = tempFirstName;
+//	}
 	
 	public Job(String name, Date startDate, Date endDate) {
 		this.name = name;
