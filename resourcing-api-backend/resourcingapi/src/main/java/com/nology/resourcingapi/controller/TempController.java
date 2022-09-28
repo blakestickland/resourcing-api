@@ -21,7 +21,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nology.resourcingapi.dto.JobDTO;
+import com.nology.resourcingapi.dto.TempCreateDTO;
 import com.nology.resourcingapi.dto.TempDTO;
+import com.nology.resourcingapi.entity.Job;
 import com.nology.resourcingapi.entity.Temp;
 import com.nology.resourcingapi.exception.ResourceNotFoundException;
 import com.nology.resourcingapi.repository.JobRepository;
@@ -41,7 +43,8 @@ public class TempController {
 	
 	private JobRepository jobRepository; 
 	
-	@Autowired TempController(TempRepository tempRepository, JobRepository jobRepository) {
+	@Autowired 
+	TempController(TempRepository tempRepository, JobRepository jobRepository) {
 		this.tempRepository = tempRepository;
 		this.jobRepository = jobRepository;
 	}
@@ -64,31 +67,34 @@ public class TempController {
 //		
 //		return new ResponseEntity<>(temps, HttpStatus.OK);
 //	}
-	
+	// GET "/temps"
 	@GetMapping
-	public List<Temp> getTemps() {
-		return tempService.all();
+	public ResponseEntity<List<Temp>> getTemps() {
+		List<Temp> temps = tempService.getAllTemps();
+		return new ResponseEntity<>(temps, HttpStatus.OK);
+
 	}
 	
 	// GET "/temps/{id}"
 	@GetMapping("/{id}")
 	public ResponseEntity<Temp> getTempById(@PathVariable("id") long id) {
-		Temp temp = tempRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Not found Temp with id = " + id));
+		Temp temp = tempService.getTemp(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Temp with id = " + id + " not found."));
 		return new ResponseEntity<>(temp, HttpStatus.OK);
 	}
 	
 	// POST "/temps"
 	@PostMapping
-	@ResponseStatus(value = HttpStatus.CREATED)
-	public void saveTemp(@Valid @RequestBody TempDTO temp) {
-		tempService.create(temp);
+	public ResponseEntity<Object> saveTemp(@Valid @RequestBody TempCreateDTO temp) {
+		ResponseEntity<Object> tempCreated = tempService.create(temp);
+		return tempCreated;
+//		return new ResponseEntity<>(temp, HttpStatus.CREATED);
 	}
 
 	// DELETE("/temps/{id}")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<HttpStatus> deleteTemp(@PathVariable("id") long id) {
-		tempRepository.deleteById(id);
+		tempService.deleteTemp(id);
 		
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}

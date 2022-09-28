@@ -4,12 +4,15 @@ package com.nology.resourcingapi.service;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.nology.resourcingapi.dto.TempCreateDTO;
 import com.nology.resourcingapi.dto.TempDTO;
 import com.nology.resourcingapi.entity.Temp;
 import com.nology.resourcingapi.exception.ResourceNotFoundException;
@@ -23,7 +26,7 @@ public class TempService {
 	
 //	public static List<Temp> temps = new ArrayList<Temp>();
 	
-	public List<Temp> all() {
+	public List<Temp> getAllTemps() {
 		return tempRepository.findAll();
 	}
 	
@@ -31,8 +34,8 @@ public class TempService {
 		return tempRepository.findById(id);
 	}
 	
-	public ResponseEntity<Object> create(TempDTO temp) {
-		Temp dbTemp  = new Temp(temp.getFirstName(), temp.getLastName(), temp.getJobs());
+	public ResponseEntity<Object> create(@Valid TempCreateDTO temp) {
+		Temp dbTemp  = new Temp(temp.getFirstName(), temp.getLastName());
 		Temp savedTemp = tempRepository.save(dbTemp);
 		if (tempRepository.findById(savedTemp.getId()).isPresent()) {
 			return ResponseEntity.accepted().body("Successfully Created Temp and Jobs");
