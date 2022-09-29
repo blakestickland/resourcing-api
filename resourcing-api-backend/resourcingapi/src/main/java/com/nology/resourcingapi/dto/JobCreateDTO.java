@@ -11,6 +11,7 @@ public class JobCreateDTO {
 	private Date startDate;
 	@NotNull
 	private Date endDate;
+	private Long tempId;
 	
 	public String getName() {
 		return name;
@@ -20,6 +21,9 @@ public class JobCreateDTO {
 	}
 	public Date getEndDate() {
 		return endDate;
+	}
+	public Long getTempId() {
+		return tempId;
 	}
 	
 }

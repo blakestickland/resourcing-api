@@ -37,18 +37,22 @@ public class JobService {
 		return jobRepository.findById(id);
 	}
 	
-	public ResponseEntity<Object> create(@Valid JobCreateDTO job) {
-		Job dbJob = new Job(job.getName(), job.getStartDate(), job.getEndDate());
+	public ResponseEntity<Object> create(@Valid JobCreateDTO jobCreateRequest) {
+		Job dbJob;
+		// Create a new Job with a Temp associated with it or just create a new Job
+		if ((jobCreateRequest.getTempId()) != null) {
+			long tempId = jobCreateRequest.getTempId();
+			Temp temp = tempRepository.findById(tempId).orElseThrow(() -> 
+				new ResourceNotFoundException("Temp not found with id :" + tempId));
+			dbJob = new Job(jobCreateRequest.getName(), jobCreateRequest.getStartDate(), jobCreateRequest.getEndDate(), temp);
+		} else {
+			dbJob = new Job(jobCreateRequest.getName(), jobCreateRequest.getStartDate(), jobCreateRequest.getEndDate());			
+		}
 		Job savedJob = jobRepository.save(dbJob);
 		if (jobRepository.findById(savedJob.getId()).isPresent()) {
 			return ResponseEntity.accepted().body("Successfully Created Job");
 		} else 
 			return ResponseEntity.unprocessableEntity().body("Failed to Create specified Job");
-	}
-	
-	public Job update(Job exisitingJob) {
-		Job dbJob  = new Job(exisitingJob.getName(), exisitingJob.getStartDate(), exisitingJob.getEndDate(), exisitingJob.getTemp());
-		return jobRepository.save(dbJob);
 	}
 	
 	public void deleteJob(@PathVariable long id) {
