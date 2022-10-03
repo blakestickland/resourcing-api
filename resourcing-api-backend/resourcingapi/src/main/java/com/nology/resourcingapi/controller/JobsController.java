@@ -75,8 +75,13 @@ public class JobsController {
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
+//	@GetMapping("/search")
+//	public ResponseEntity <List<Job>> searchJobs(@RequestParam("query") String query) {
+//		return ResponseEntity.ok(jobService.searchJobs(query));
+//	}
 	@GetMapping("/search")
-	public ResponseEntity <List<Job>> searchJobs(@RequestParam("query") String query) {
-		return ResponseEntity.ok(jobService.searchJobs(query));
+	public ResponseEntity <List<Job>> searchJobsAssigned(@RequestParam("assigned")  boolean query) {
+		System.out.println("https req query is: " + query);
+		return ResponseEntity.ok(jobService.searchJobsAssigned(query));
 	}
 }

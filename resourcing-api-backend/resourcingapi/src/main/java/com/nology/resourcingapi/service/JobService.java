@@ -131,6 +131,20 @@ public class JobService {
 		List<Job> jobs = jobRepository.searchJobsSQL(query);
 		return jobs;
 	}
+	
+	public List<Job> searchJobsAssigned(boolean isAssigned) {
+		System.out.println(isAssigned);
+		List<Job> jobs = null;
+		if (isAssigned) {
+			jobs = jobRepository.searchJobsAssignedNotNullSQL();
+			return jobs;
+		}
+		else if (!isAssigned) {
+			jobs = jobRepository.searchJobsAssignedNullSQL();
+			return jobs;
+		}
+		return jobs;
+	}
 
 }
 
