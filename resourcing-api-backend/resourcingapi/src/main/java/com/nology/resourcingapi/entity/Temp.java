@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "temps")
@@ -34,7 +35,8 @@ public class Temp {
 	@Column (name = "last_name")
 	private String lastName;
 	
-	@OneToMany(mappedBy="temp", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JsonIgnoreProperties("temp")
+	@OneToMany(mappedBy="temp", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 //	@OneToMany(cascade = CascadeType.ALL)
 //	@JoinColumn(name="temp_id")
 	private Set<Job> jobs;

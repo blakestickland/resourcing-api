@@ -15,6 +15,21 @@ public class JobReadDTO {
 	private Date endDate;
 	private Temp temp;
 	
+	public JobReadDTO() {}
+	
+	public JobReadDTO(String name, Date startDate, Date endDate, Temp temp) {
+		this.name = name;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.temp = temp;
+	}
+	
+	public JobReadDTO(String name, Date startDate, Date endDate) {
+		this.name = name;
+		this.startDate = startDate;
+		this.endDate = endDate;
+	}
+	
 	public String getName() {
 		return name;
 	}

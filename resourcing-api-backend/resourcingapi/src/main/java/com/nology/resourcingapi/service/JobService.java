@@ -1,7 +1,10 @@
 package com.nology.resourcingapi.service;
 
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -13,10 +16,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.nology.resourcingapi.dto.JobCreateDTO;
 import com.nology.resourcingapi.dto.JobDTO;
+import com.nology.resourcingapi.dto.JobReadDTO;
 import com.nology.resourcingapi.dto.JobUpdateDTO;
 import com.nology.resourcingapi.dto.TempCreateDTO;
 import com.nology.resourcingapi.entity.Job;
 import com.nology.resourcingapi.entity.Temp;
+import com.nology.resourcingapi.exception.FieldInvalidError;
 import com.nology.resourcingapi.exception.ResourceNotFoundException;
 import com.nology.resourcingapi.repository.JobRepository;
 import com.nology.resourcingapi.repository.TempRepository;
@@ -28,12 +33,22 @@ public class JobService {
 	private JobRepository jobRepository;
 	@Autowired
 	private TempRepository tempRepository;
+	@Autowired
+	private TempService tempService;
 	
 	public List<Job> getAllJobs() {
 		return jobRepository.findAll();
 	}
 	
 	public Optional<Job> getJob(@PathVariable long id) {
+//		Optional<Job> job = jobRepository.findById(id);
+//		if (job.get().getTemp() != null) {
+//			System.out.println("This Job has a Temp associated with it.");
+//			System.out.println(job.get().getTemp());
+//			Optional<Temp> assignedTemp = tempService.getTemp(job.get().getTemp().getId());
+//			System.out.println(assignedTemp);
+////			job.get().setTemp(assignedTemp);
+//		}
 		return jobRepository.findById(id);
 	}
 	
@@ -78,12 +93,57 @@ public class JobService {
 			long newTempId = jobUpdateRequest.getTempId();
 			Temp temp = tempRepository.findById(newTempId).orElseThrow(() -> 
 				new ResourceNotFoundException("Temp not found with id :" + id));
-			exisitingJob.setTemp(temp);
+			
+			// Iterate over the list of jobs assigned to Temp to check if dates clash
+			if ((temp.getJobs()) != null && (temp.getJobs()).size() > 0) {
+				Date exJStartDate = exisitingJob.getStartDate();
+				Date exJEndDate = exisitingJob.getEndDate();
+				Set<Job> tempJobsList = temp.getJobs();
+				Iterator<Job> itr = tempJobsList.iterator();
+				Job tempJob;
+				Date tJStartDate;
+				Date tJEndDate;
+				while (itr.hasNext()) {
+					tempJob = itr.next();
+					tJStartDate = tempJob.getStartDate();
+					tJEndDate = tempJob.getEndDate();
+					
+					if ((exJStartDate.compareTo(tJEndDate) > 0) &&
+						(exJStartDate.compareTo(tJEndDate) < 0) &&
+						(exJEndDate.compareTo(tJEndDate) > 0) &&
+						(exJEndDate.compareTo(tJStartDate) < 0)) {
+						exisitingJob.setTemp(temp);
+					} else {
+						System.out.println("Check the requested start and end dates for clashes with currently assigned jobs.");
+					}
+				}
+			}
+				
+			
 		}
 //				job.setAssigned(jobRequest.isAssigned());
 		Job updatedJob = jobRepository.save(exisitingJob);
 		
 		return updatedJob;
+	}
+	
+	public List<Job> searchJobs(String query) {
+		List<Job> jobs = jobRepository.searchJobsSQL(query);
+		return jobs;
+	}
+	
+	public List<Job> searchJobsAssigned(boolean isAssigned) {
+		System.out.println(isAssigned);
+		List<Job> jobs = null;
+		if (isAssigned) {
+			jobs = jobRepository.searchJobsAssignedNotNullSQL();
+			return jobs;
+		}
+		else if (!isAssigned) {
+			jobs = jobRepository.searchJobsAssignedNullSQL();
+			return jobs;
+		}
+		return jobs;
 	}
 
 }

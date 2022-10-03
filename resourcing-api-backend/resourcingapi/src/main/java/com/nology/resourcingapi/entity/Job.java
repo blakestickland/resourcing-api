@@ -1,6 +1,7 @@
 package com.nology.resourcingapi.entity;
 
 import java.util.Date;
+import java.util.Optional;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -19,6 +20,7 @@ import org.springframework.lang.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
@@ -49,8 +51,9 @@ public class Job {
 //	private boolean assigned;
 	
 //	// many to one relationship -- many jobs can be assigned to one temp
-	@JsonIgnore
-	@ManyToOne (cascade=CascadeType.ALL, fetch = FetchType.LAZY)
+//	@JsonIgnore
+	@JsonIgnoreProperties("jobs")
+	@ManyToOne (cascade=CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name="temp_id")
 //	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private Temp temp;
@@ -59,8 +62,9 @@ public class Job {
 //	@Transient
 //	@Nullable
 //	private Temp assignedTemp;
-////	private String tempFirstName;
-//	
+	
+//	private String tempFirstName;
+	
 //	public long getAssignedTemp() {
 //		return getTemp().getId();
 //	}
@@ -74,6 +78,14 @@ public class Job {
 //		this.tempFirstName = tempFirstName;
 //	}
 	
+//	public Temp getAssignedTemp() {
+//		return getTemp();
+//	}
+//
+//	public void setAssignedTemp(Temp assignedTemp) {
+//		this.assignedTemp = temp;
+//	}
+
 	public Job(String name, Date startDate, Date endDate) {
 		this.name = name;
 		this.startDate = startDate;
