@@ -2,6 +2,7 @@ package com.nology.resourcingapi.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -99,15 +100,15 @@ public class TempController {
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
-//	// List temps that are available for a job based on the jobs date range
-//	@GetMapping("?jobId={jobId}")
-//	public ResponseEntity<List<Temp>> findByJobId(@PathVariable("jobId") long jobId) {
-//		List<Temp> temps = tempRepository.findByJobId(jobId);
-//		
-//		if (temps.isEmpty()) {
-//			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//		}
-//		
-//		return new ResponseEntity<>(temps, HttpStatus.OK);
-//	}
+	// List temps that are available for a job based on the jobs date range
+	@GetMapping("/search")
+	public ResponseEntity<List<Temp>> findByJobId(@RequestParam("jobId") long jobId) {
+		List<Temp> temps = tempService.findByJobId(jobId);
+		
+		if (temps.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		
+		return new ResponseEntity<>(temps, HttpStatus.OK);
+	}
 }
