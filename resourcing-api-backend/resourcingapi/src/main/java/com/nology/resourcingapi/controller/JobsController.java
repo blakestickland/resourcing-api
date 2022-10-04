@@ -56,6 +56,7 @@ public class JobsController {
 	@PostMapping
 	public ResponseEntity<Object> saveJob(@Valid @RequestBody JobCreateDTO job) {
 		ResponseEntity<Object> jobCreated = jobService.create(job);
+		
 		return jobCreated;
 //		return new ResponseEntity<>(job, HttpStatus.CREATED);
 	}
@@ -75,10 +76,6 @@ public class JobsController {
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
-//	@GetMapping("/search")
-//	public ResponseEntity <List<Job>> searchJobs(@RequestParam("query") String query) {
-//		return ResponseEntity.ok(jobService.searchJobs(query));
-//	}
 	@GetMapping("/search")
 	public ResponseEntity <List<Job>> searchJobsAssigned(@RequestParam("assigned")  boolean query) {
 		System.out.println("https req query is: " + query);
