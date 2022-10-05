@@ -91,37 +91,34 @@ public class JobService {
 			exisitingJob.setEndDate(jobUpdateRequest.getEndDate());
 		if ((jobUpdateRequest.getTempId()) != null) {
 			long newTempId = jobUpdateRequest.getTempId();
-			Temp temp = tempRepository.findById(newTempId).orElseThrow(() -> 
+			Temp newTemp = tempRepository.findById(newTempId).orElseThrow(() -> 
 				new ResourceNotFoundException("Temp not found with id :" + id));
 			
+			Set<Job> newTempJobs = newTemp.getJobs();
+			
 			// Iterate over the list of jobs assigned to Temp to check if dates clash
-			if ((temp.getJobs()) != null && (temp.getJobs()).size() > 0) {
+			if (newTempJobs != null && newTempJobs.size() > 0) {
 				Date exJStartDate = exisitingJob.getStartDate();
 				Date exJEndDate = exisitingJob.getEndDate();
-				Set<Job> tempJobsList = temp.getJobs();
+				Set<Job> tempJobsList = newTemp.getJobs();
 				Iterator<Job> itr = tempJobsList.iterator();
-				Job tempJob;
-				Date tJStartDate;
-				Date tJEndDate;
+				
 				while (itr.hasNext()) {
-					tempJob = itr.next();
-					tJStartDate = tempJob.getStartDate();
-					tJEndDate = tempJob.getEndDate();
+					Job tempJob = itr.next();
+					Date tJStartDate = tempJob.getStartDate();
+					Date tJEndDate = tempJob.getEndDate();
 					
-					if ((exJStartDate.compareTo(tJEndDate) > 0) &&
-						(exJStartDate.compareTo(tJEndDate) < 0) &&
-						(exJEndDate.compareTo(tJEndDate) > 0) &&
-						(exJEndDate.compareTo(tJStartDate) < 0)) {
-						exisitingJob.setTemp(temp);
+					if (((exJStartDate.compareTo(tJStartDate) < 0) ||
+						(exJStartDate.compareTo(tJEndDate) > 0)) &&
+						((exJEndDate.compareTo(tJStartDate) < 0) ||
+						(exJEndDate.compareTo(tJEndDate) > 0))) {
+						exisitingJob.setTemp(newTemp);
 					} else {
-						System.out.println("Check the requested start and end dates for clashes with currently assigned jobs.");
+						System.out.println("Cannot assign Temp to job.\nCheck the requested start and end dates for clashes with currently assigned jobs.");
 					}
 				}
 			}
-				
-			
 		}
-//				job.setAssigned(jobRequest.isAssigned());
 		Job updatedJob = jobRepository.save(exisitingJob);
 		
 		return updatedJob;

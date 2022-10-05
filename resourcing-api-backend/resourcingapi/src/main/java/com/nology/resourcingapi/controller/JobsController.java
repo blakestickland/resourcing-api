@@ -78,7 +78,8 @@ public class JobsController {
 	
 	@GetMapping("/search")
 	public ResponseEntity <List<Job>> searchJobsAssigned(@RequestParam("assigned")  boolean query) {
-		System.out.println("https req query is: " + query);
-		return ResponseEntity.ok(jobService.searchJobsAssigned(query));
+		List<Job> jobsAssigned = jobService.searchJobsAssigned(query);
+		
+		return ResponseEntity.ok(jobsAssigned);
 	}
 }
