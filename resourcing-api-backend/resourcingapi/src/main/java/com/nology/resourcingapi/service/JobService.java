@@ -55,17 +55,48 @@ public class JobService {
 	public ResponseEntity<Object> create(@Valid JobCreateDTO jobCreateRequest) {
 		Job dbJob;
 		// Create a new Job with a Temp associated with it or just create a new Job
-		if ((jobCreateRequest.getTempId()) != null) {
+		if (jobCreateRequest.getTempId() != null) {
 			long tempId = jobCreateRequest.getTempId();
 			Temp temp = tempRepository.findById(tempId).orElseThrow(() -> 
 				new ResourceNotFoundException("Temp not found with id :" + tempId));
-			dbJob = new Job(jobCreateRequest.getName(), jobCreateRequest.getStartDate(), jobCreateRequest.getEndDate(), temp);
+			
+			Set<Job> tempJobs = temp.getJobs();
+			boolean tempAvailable = true;
+			
+			// Iterate over the list of jobs assigned to Temp to check if dates clash
+			if (tempJobs != null && tempJobs.size() > 0) {
+				Date newJobStartDate = jobCreateRequest.getStartDate();
+				Date newJobEndDate = jobCreateRequest.getEndDate();
+				
+				Iterator<Job> itr = tempJobs.iterator();
+				
+				while (itr.hasNext()) {
+					Job itrJob = itr.next();
+					Date itrJStartDate = itrJob.getStartDate();
+					Date itrJEndDate = itrJob.getEndDate();
+					
+					if (((newJobStartDate.compareTo(itrJStartDate) >= 0) ||
+						(newJobStartDate.compareTo(itrJEndDate) <= 0)) &&
+						((newJobEndDate.compareTo(itrJStartDate) >= 0) ||
+						(newJobEndDate.compareTo(itrJEndDate) <= 0))) {
+						System.out.println("Cannot assign Temp to job.\nClashes with currently assigned job: id=" + itrJob.getId() + " No Temp assigned to job!");
+						tempAvailable = false;
+						break;
+					}
+				}
+			}
+			if (tempAvailable) {
+				dbJob = new Job(jobCreateRequest.getName(), jobCreateRequest.getStartDate(), jobCreateRequest.getEndDate(), temp);				
+			} else {
+				dbJob = new Job(jobCreateRequest.getName(), jobCreateRequest.getStartDate(), jobCreateRequest.getEndDate());
+			}
+			
 		} else {
 			dbJob = new Job(jobCreateRequest.getName(), jobCreateRequest.getStartDate(), jobCreateRequest.getEndDate());			
 		}
 		Job savedJob = jobRepository.save(dbJob);
 		if (jobRepository.findById(savedJob.getId()).isPresent()) {
-			return ResponseEntity.accepted().body("Successfully Created Job");
+			return ResponseEntity.accepted().body("Successfully Created Job with id: " + savedJob.getId());
 		} else 
 			return ResponseEntity.unprocessableEntity().body("Failed to Create specified Job");
 	}
@@ -83,13 +114,16 @@ public class JobService {
 				.orElseThrow(() -> new ResourceNotFoundException("Job with id: " + id + "not found"));
 		// Loop through fields to get field keys
 		// if jobRequest contains same key as dbJob, set dbJob value to jobRequest value
-		if ((jobUpdateRequest.getName()) != null)
+		if (jobUpdateRequest.getName() != null)
 			exisitingJob.setName(jobUpdateRequest.getName());
-		if ((jobUpdateRequest.getStartDate()) != null)
+		
+		if (jobUpdateRequest.getStartDate() != null)
 			exisitingJob.setStartDate(jobUpdateRequest.getStartDate());
-		if ((jobUpdateRequest.getEndDate()) != null)
+		
+		if (jobUpdateRequest.getEndDate() != null)
 			exisitingJob.setEndDate(jobUpdateRequest.getEndDate());
-		if ((jobUpdateRequest.getTempId()) != null) {
+		
+		if (jobUpdateRequest.getTempId() != null) {
 			long newTempId = jobUpdateRequest.getTempId();
 			Temp newTemp = tempRepository.findById(newTempId).orElseThrow(() -> 
 				new ResourceNotFoundException("Temp not found with id :" + id));
