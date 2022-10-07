@@ -1,0 +1,2 @@
+module soundSynthJava_starter {
+}

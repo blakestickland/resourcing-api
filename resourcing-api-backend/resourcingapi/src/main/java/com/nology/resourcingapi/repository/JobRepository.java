@@ -27,6 +27,7 @@ public interface JobRepository extends JpaRepository<Job, Long> {
 	@Query("update Job u set u.temp = :temp where u.id = :id")
 	void updateTemp(@Param(value = "id") long id, @Param(value = "temp") Temp temp);
 	
+	
 	@Query ("SELECT j FROM Job j WHERE " + 
 			"j.name LIKE CONCAT('%', :query, '%')")
 	List<Job> searchJobsSQL(String query);
