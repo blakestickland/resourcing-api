@@ -39,16 +39,16 @@ public class TempController {
 	@Autowired
 	private TempService	tempService;
 	
-	@Autowired
-	private TempRepository tempRepository;
-	
-	private JobRepository jobRepository; 
-	
-	@Autowired 
-	TempController(TempRepository tempRepository, JobRepository jobRepository) {
-		this.tempRepository = tempRepository;
-		this.jobRepository = jobRepository;
-	}
+//	@Autowired
+//	private TempRepository tempRepository;
+//	
+//	private JobRepository jobRepository; 
+//	
+//	@Autowired 
+//	TempController(TempRepository tempRepository, JobRepository jobRepository) {
+//		this.tempRepository = tempRepository;
+//		this.jobRepository = jobRepository;
+//	}
 	
 	
 	// GET "/temps"

@@ -27,13 +27,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Table(name = "jobs")
 public class Job { 
 	
-//	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "job_generator")
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", updatable = false, nullable = false)
 	private Long id;
 	
-//	@Lob
 	@Column(name = "name")
 	private String name;
 	
@@ -51,7 +49,6 @@ public class Job {
 //	private boolean assigned;
 	
 //	// many to one relationship -- many jobs can be assigned to one temp
-//	@JsonIgnore
 	@JsonIgnoreProperties("jobs")
 	@ManyToOne (cascade=CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name="temp_id")

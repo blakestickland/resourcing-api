@@ -1,7 +1,6 @@
 package com.nology.resourcingapi.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -16,18 +15,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nology.resourcingapi.dto.JobCreateDTO;
-import com.nology.resourcingapi.dto.JobDTO;
 import com.nology.resourcingapi.dto.JobUpdateDTO;
-import com.nology.resourcingapi.dto.TempCreateDTO;
 import com.nology.resourcingapi.entity.Job;
 import com.nology.resourcingapi.exception.ResourceNotFoundException;
-import com.nology.resourcingapi.repository.JobRepository;
 import com.nology.resourcingapi.service.JobService;
-import com.nology.resourcingapi.service.TempService;
 
 @RestController
 @RequestMapping(value = "/jobs")
@@ -63,10 +57,10 @@ public class JobsController {
 	
 	
 	@PatchMapping("/{id}")
-	public ResponseEntity<Job> updateJob(@PathVariable("id") long id, @Valid @RequestBody JobUpdateDTO jobUpdateRequest) {
+	public ResponseEntity<Object> updateJob(@PathVariable("id") long id, @Valid @RequestBody JobUpdateDTO jobUpdateRequest) {
 		// save mergedJob to jobRepo
-		final Job updatedJob = jobService.partiallyUpdateJob(id, jobUpdateRequest);
-		return ResponseEntity.ok(updatedJob);
+		ResponseEntity<Object> updatedJob =jobService.partiallyUpdateJob(id, jobUpdateRequest);
+		return updatedJob;
 	}
 	
 	@DeleteMapping("/{id}")
