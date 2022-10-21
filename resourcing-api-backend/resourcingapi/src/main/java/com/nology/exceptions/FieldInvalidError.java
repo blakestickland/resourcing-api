@@ -1,4 +1,4 @@
-package exceptions;
+package com.nology.exceptions;
 
 public class FieldInvalidError {
 	

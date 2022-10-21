@@ -15,8 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.nology.temp.TempRepository;
-
-import exceptions.ResourceNotFoundException;
+import com.nology.exceptions.ResourceNotFoundException;
 import com.nology.temp.Temp;
 
 @Service
@@ -37,12 +36,13 @@ public class JobService {
 		return jobRepository.findById(id);
 	}
 	
-	public ResponseEntity<Object> create(@Valid JobCreateDTO jobCreateRequest) {
-		Job dbJob;
+	public Job create(@Valid JobCreateDTO jobCreateRequest) {
+		Job dbJob = null;
 		// Check that the endDate is not prior to the startDate
 		if (jobCreateRequest.getStartDate().compareTo(jobCreateRequest.getEndDate()) > 0) {
-			return ResponseEntity.unprocessableEntity().body(
-					"Failed to Create specified Job\nStart date needs to be same date or prior to the end date.");
+//			throw() ResponseEntity.unprocessableEntity().body(
+//					"Failed to Create specified Job\nStart date needs to be same date or prior to the end date.");
+			return null;
 		}
 		// Create a new Job with a Temp associated with it or just create a new Job
 		if (jobCreateRequest.getTempId() != null) {
@@ -78,7 +78,7 @@ public class JobService {
 			if (tempAvailable) {
 				dbJob = new Job(jobCreateRequest.getName(), jobCreateRequest.getStartDate(), jobCreateRequest.getEndDate(), temp);				
 			} else {
-				return ResponseEntity.unprocessableEntity().body("Failed to Create specified Job as Temp is currently assigned to a job with dates that clash.");
+//				return ResponseEntity.unprocessableEntity().body("Failed to Create specified Job as Temp is currently assigned to a job with dates that clash.");
 			}
 			
 		} else {
@@ -86,9 +86,11 @@ public class JobService {
 		}
 		Job savedJob = jobRepository.save(dbJob);
 		if (jobRepository.findById(savedJob.getId()).isPresent()) {
-			return ResponseEntity.accepted().body("Successfully Created Job with id: " + savedJob.getId());
-		} else 
-			return ResponseEntity.unprocessableEntity().body("Failed to Create specified Job");
+//			return ResponseEntity.accepted().body("Successfully Created Job with id: " + savedJob.getId());
+		} else {
+//		    return ResponseEntity.unprocessableEntity().body("Failed to Create specified Job");
+		}
+        return savedJob;	
 	}
 	
 	public void deleteJob(@PathVariable long id) {
