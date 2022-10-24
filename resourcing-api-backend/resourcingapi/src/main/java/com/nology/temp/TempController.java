@@ -23,8 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.nology.job.JobDTO;
 import com.nology.job.JobRepository;
-
-import exceptions.ResourceNotFoundException;
+import com.nology.exceptions.ResourceNotFoundException;
 import com.nology.job.Job;
 
 //@CrossOrigin(origins = "http://localhost:4200")
@@ -83,9 +82,7 @@ public class TempController {
 	// POST "/temps"
 	@PostMapping
 	public ResponseEntity<Object> saveTemp(@Valid @RequestBody TempCreateDTO temp) {
-		ResponseEntity<Object> tempCreated = tempService.create(temp);
-		return tempCreated;
-//		return new ResponseEntity<>(temp, HttpStatus.CREATED);
+		return new ResponseEntity<>(tempService.create(temp), HttpStatus.CREATED);
 	}
 
 	// DELETE("/temps/{id}")

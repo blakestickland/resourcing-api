@@ -18,8 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.nology.job.JobReadDTO;
 import com.nology.job.JobRepository;
-
-import exceptions.ResourceNotFoundException;
+import com.nology.exceptions.ResourceNotFoundException;
 import com.nology.job.Job;
 
 @Service

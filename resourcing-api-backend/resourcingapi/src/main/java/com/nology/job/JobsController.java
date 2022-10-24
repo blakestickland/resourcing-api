@@ -17,7 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import exceptions.ResourceNotFoundException;
+import com.nology.exceptions.ApiRequestException;
+import com.nology.exceptions.ResourceNotFoundException;
+
+
 
 @RestController
 @RequestMapping(value = "/jobs")
@@ -29,9 +32,11 @@ public class JobsController {
 	// GET /jobs -- Fetch all jobs
 	@GetMapping
 	public ResponseEntity<List<Job>> getJobs() {
-		List<Job> jobs = jobService.getAllJobs();
-		
-		return new ResponseEntity<>(jobs, HttpStatus.OK);
+	    throw new ApiRequestException("Oops cannot get all teh jobs with custom exception.");
+	    
+//		List<Job> jobs = jobService.getAllJobs();
+//		
+//		return ResponseEntity.ok(jobs);
 	}
 	
 	// GET /jobs/{id} -- (id, name, startDate, endDate, temp_id)
@@ -44,11 +49,10 @@ public class JobsController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Object> saveJob(@Valid @RequestBody JobCreateDTO job) {
-		ResponseEntity<Object> jobCreated = jobService.create(job);
+	public ResponseEntity<Job> saveJob(@RequestBody @Valid JobCreateDTO job) {
+		Job newJob = jobService.create(job);
 		
-		return jobCreated;
-//		return new ResponseEntity<>(job, HttpStatus.CREATED);
+		return new ResponseEntity<>(newJob, HttpStatus.CREATED);
 	}
 	
 	
