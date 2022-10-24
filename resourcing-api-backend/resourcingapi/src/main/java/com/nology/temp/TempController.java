@@ -82,9 +82,7 @@ public class TempController {
 	// POST "/temps"
 	@PostMapping
 	public ResponseEntity<Object> saveTemp(@Valid @RequestBody TempCreateDTO temp) {
-		ResponseEntity<Object> tempCreated = tempService.create(temp);
-		return tempCreated;
-//		return new ResponseEntity<>(temp, HttpStatus.CREATED);
+		return new ResponseEntity<>(tempService.create(temp), HttpStatus.CREATED);
 	}
 
 	// DELETE("/temps/{id}")

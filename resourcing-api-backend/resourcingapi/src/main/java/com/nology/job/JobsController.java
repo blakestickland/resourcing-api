@@ -31,12 +31,12 @@ public class JobsController {
 	
 	// GET /jobs -- Fetch all jobs
 	@GetMapping
-	public List<Job> getJobs() {
+	public ResponseEntity<List<Job>> getJobs() {
 	    throw new ApiRequestException("Oops cannot get all teh jobs with custom exception.");
 	    
-//		return jobService.getAllJobs();
-		
-//		return new ResponseEntity<>(jobs, HttpStatus.OK);
+//		List<Job> jobs = jobService.getAllJobs();
+//		
+//		return ResponseEntity.ok(jobs);
 	}
 	
 	// GET /jobs/{id} -- (id, name, startDate, endDate, temp_id)
@@ -49,7 +49,7 @@ public class JobsController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Job> saveJob(@Valid @RequestBody JobCreateDTO job) {
+	public ResponseEntity<Job> saveJob(@RequestBody @Valid JobCreateDTO job) {
 		Job newJob = jobService.create(job);
 		
 		return new ResponseEntity<>(newJob, HttpStatus.CREATED);
