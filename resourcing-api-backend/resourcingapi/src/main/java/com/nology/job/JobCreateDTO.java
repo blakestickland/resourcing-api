@@ -5,13 +5,18 @@ import java.util.Date;
 import javax.validation.constraints.NotNull;
 
 public class JobCreateDTO {
+    
 	@NotNull(message = "Job name should not be null")
 	private String name;
+	
 	@NotNull(message = "Job start date should not be null")
 	private Date startDate;
+	
 	@NotNull(message = "Job end date should not be null")
 	private Date endDate;
+	
 	private Long tempId;
+	
 	
 	public String getName() {
 		return name;
