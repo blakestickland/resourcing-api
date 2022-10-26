@@ -1,5 +1,6 @@
 package com.nology.job;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,4 +41,20 @@ public interface JobRepository extends JpaRepository<Job, Long> {
 			"j.temp IS NOT NULL " +  
 			"ORDER BY j.id")
 	List<Job> searchJobsAssignedNotNullSQL();
+	
+	@Query(value = "SELECT * FROM jobs j WHERE " +
+	        "(j.start_date BETWEEN ?1 AND ?2) AND " + 
+	        "(j.end_date BETWEEN ?1 AND ?2) AND " +
+	        "(j.temp_id = ?3)", nativeQuery = true)
+	List<Job> findByDateBetween(Date startDate, Date endDate, Long incomingTempId);
+	
+	@Query(value = "SELECT * FROM jobs j WHERE " +
+            "(j.start_date BETWEEN ?1 AND ?2) AND " + 
+            "(j.temp_id = ?3)", nativeQuery = true)
+    List<Job> findByStartDateBetween(Date incomingStartDate, Date incomingEndDate, Long incomingTempId);
+	
+	@Query(value = "SELECT * FROM jobs j WHERE " +
+            "(j.end_date BETWEEN ?1 AND ?2) AND " + 
+            "(j.temp_id = ?3)", nativeQuery = true)
+    List<Job> findByEndDateBetween(Date incomingStartDate, Date incomingEndDate, Long incomingTempId);
 }

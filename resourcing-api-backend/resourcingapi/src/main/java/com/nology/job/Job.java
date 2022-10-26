@@ -31,7 +31,7 @@ public class Job {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id", updatable = false, nullable = false)
+	@Column(name = "id", updatable = false)
 	private Long id;
 	
 	@Column(name = "name")
@@ -52,8 +52,8 @@ public class Job {
 	
 //	// many to one relationship -- many jobs can be assigned to one temp
 	@JsonIgnoreProperties("jobs")
-	@ManyToOne (cascade=CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name="temp_id")
+	@ManyToOne (cascade=CascadeType.ALL, fetch = FetchType.EAGER, optional = true)
+	@JoinColumn(name="temp_id", nullable = true)
 //	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private Temp temp;
 	

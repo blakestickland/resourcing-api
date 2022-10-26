@@ -28,7 +28,7 @@ public class Temp {
 //	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "temp_generator")
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id", updatable = false, nullable = false)
+	@Column(name = "id", updatable = false)
 	private Long id;
 	
 	@Column(name = "first_name")

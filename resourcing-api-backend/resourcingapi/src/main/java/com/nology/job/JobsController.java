@@ -1,5 +1,6 @@
 package com.nology.job;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nology.exceptions.ApiRequestException;
 import com.nology.exceptions.ResourceNotFoundException;
 
 
@@ -29,27 +29,32 @@ public class JobsController {
 	@Autowired 
 	private JobService jobService;
 	
-	// GET /jobs -- Fetch all jobs
-	@GetMapping
-	public ResponseEntity<List<Job>> getJobs() {
-	    throw new ApiRequestException("Oops cannot get all teh jobs with custom exception.");
+	@GetMapping 
+	public ResponseEntity<List<Job>> getAllJobs(@RequestParam(name = "assigned", required = false)  Boolean query) {
+	    List<Job> jobs = new ArrayList<Job>();
 	    
-//		List<Job> jobs = jobService.getAllJobs();
-//		
-//		return ResponseEntity.ok(jobs);
+	    if (query == null)
+	        jobService.getAllJobs().forEach(jobs::add);
+	    else
+	        jobService.searchJobsAssigned(query).forEach(jobs::add);
+	    
+	    if (jobs.isEmpty()) {
+	        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	    }	
+	    
+        return new ResponseEntity<>(jobs, HttpStatus.OK);
 	}
 	
-	// GET /jobs/{id} -- (id, name, startDate, endDate, temp_id)
 	@GetMapping("/{id}")
 	public ResponseEntity<Job> getJobById(@PathVariable(value = "id") Long id) {
-		Job job = jobService.getJob(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Not found Job with id " + id));
-		
-		return new ResponseEntity<>(job, HttpStatus.OK);
+	    Job jobData = jobService.getJobById(id)
+	            .orElseThrow(() -> new ResourceNotFoundException("No Job with id = " + id + " found."));
+	    	    
+        return new ResponseEntity<>(jobData, HttpStatus.OK);
 	}
 	
 	@PostMapping
-	public ResponseEntity<Job> saveJob(@RequestBody @Valid JobCreateDTO job) {
+	public ResponseEntity<Job> createJob(@RequestBody @Valid JobCreateDTO job) throws Exception {
 		Job newJob = jobService.create(job);
 		
 		return new ResponseEntity<>(newJob, HttpStatus.CREATED);
@@ -57,23 +62,19 @@ public class JobsController {
 	
 	
 	@PatchMapping("/{id}")
-	public ResponseEntity<Object> updateJob(@PathVariable("id") long id, @Valid @RequestBody JobUpdateDTO jobUpdateRequest) {
+	public ResponseEntity<Job> updateJob(@PathVariable("id") long id,  @RequestBody @Valid JobUpdateDTO jobUpdateRequest) {
 		// save mergedJob to jobRepo
-		ResponseEntity<Object> updatedJob =jobService.partiallyUpdateJob(id, jobUpdateRequest);
-		return updatedJob;
+	    jobService.getJobById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No Job with id = " + id + " found."));
+        
+        return new ResponseEntity<>(jobService.partiallyUpdateJob(id, jobUpdateRequest), HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<HttpStatus> deleteJob(@PathVariable("id") long id) {
-		jobService.deleteJob(id);
-		
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        jobService.deleteJob(id);
+        
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
-	
-	@GetMapping("/search")
-	public ResponseEntity <List<Job>> searchJobsAssigned(@RequestParam("assigned")  boolean query) {
-		List<Job> jobsAssigned = jobService.searchJobsAssigned(query);
-		
-		return ResponseEntity.ok(jobsAssigned);
-	}
+
 }
