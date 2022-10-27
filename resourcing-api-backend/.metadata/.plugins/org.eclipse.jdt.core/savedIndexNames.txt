@@ -89,7 +89,6 @@ INDEX VERSION 1.131+/Users/malaisons/dev/resourcing-api/resourcing-api-backend/.
 1971826355.index
 1827368160.index
 2108465002.index
-1953305383.index
 3356566050.index
 716932664.index
 3904307404.index
