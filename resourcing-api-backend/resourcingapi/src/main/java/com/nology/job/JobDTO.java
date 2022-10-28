@@ -15,9 +15,7 @@ public class JobDTO {
 	
 	@NotNull
 	private Date endDate;
-	
-//	private boolean assigned;
-	
+		
 	// many to one relationship --> many jobs can be assigned to one temp
 	private Temp temp;
 	
@@ -41,19 +39,11 @@ public class JobDTO {
 		this.endDate = endDate;
 	}
 	
-//	public boolean isAssigned() {
-//		return assigned;
-//	}
-//	public void setAssigned(boolean assigned) {
-//		this.assigned = assigned;
-//	}
-//	
 	public Temp getTemp() {
 		return temp;
 	}
 	public void setTemp(Temp temp) {
 		this.temp = temp;
 	}
-	
 	
 }

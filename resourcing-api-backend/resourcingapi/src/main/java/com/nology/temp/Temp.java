@@ -1,9 +1,7 @@
 package com.nology.temp;
 
-import java.util.ArrayList;
-import java.util.HashSet;
+
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,11 +10,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import com.nology.job.Job;
@@ -24,8 +20,6 @@ import com.nology.job.Job;
 @Entity
 @Table(name = "temps")
 public class Temp {
-	
-//	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "temp_generator")
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", updatable = false)
@@ -39,20 +33,15 @@ public class Temp {
 	
 	@JsonIgnoreProperties("temp")
 	@OneToMany(mappedBy="temp", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//	@OneToMany(cascade = CascadeType.ALL)
-//	@JoinColumn(name="temp_id")
-	private Set<Job> jobs;
-//	private Set<Job> jobs = new HashSet<Job>();
-//	private List<Job> jobs;
-	
-	
+	private List<Job> jobs;
+
 	
 	public Temp(String firstName, String lastName) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 	}
 	
-	public Temp(String firstName, String lastName, Set<Job> jobs) {
+	public Temp(String firstName, String lastName, List<Job> jobs) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.jobs = jobs;
@@ -63,8 +52,6 @@ public class Temp {
 	}
 
 	
-
-
 	public Long getId() {
 		return id;
 	}
@@ -89,16 +76,12 @@ public class Temp {
 		this.lastName = lastName;
 	}
 
-	public Set<Job> getJobs() {
+	public List<Job> getJobs() {
 		return jobs;
 	}
 
-	public void setJobs(Set<Job> jobs) {
+	public void setJobs(List<Job> jobs) {
 		this.jobs = jobs;
-		
-//		for(Job j : jobs) {
-//			j.setTemp(this);
-//		}
 	}
 
 	
