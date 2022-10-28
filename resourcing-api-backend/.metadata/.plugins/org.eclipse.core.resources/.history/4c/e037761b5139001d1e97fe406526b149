@@ -1,5 +1,0 @@
-package com.nology.resourcingapi.exception;
-
-public class ResourceNotFoundException {
-
-}
