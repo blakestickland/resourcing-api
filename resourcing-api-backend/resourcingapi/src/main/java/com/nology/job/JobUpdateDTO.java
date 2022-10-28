@@ -3,10 +3,6 @@ package com.nology.job;
 
 import java.util.Date;
 
-import javax.validation.constraints.NotNull;
-
-import com.nology.temp.Temp;
-
 public class JobUpdateDTO {
 	private String name;
 	private Date startDate;

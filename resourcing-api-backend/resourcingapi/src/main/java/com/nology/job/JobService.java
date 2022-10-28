@@ -1,15 +1,12 @@
 package com.nology.job;
 
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,7 +43,7 @@ public class JobService {
         
         
         // Check that the endDate is not prior to the startDate
-        checkStartDateIsNotAfterEndDate (incomingStartDate,incomingEndDate);
+        checkStartDateIsNotAfterEndDate (incomingStartDate, incomingEndDate);
 
         // Check if job create request has been submitted with a Temp assigned to it.
         // If so, check if the Temp's currently assigned job dates clash. If no clash, 
@@ -54,7 +51,6 @@ public class JobService {
         // If no Temp assigned, return Job create request (with no Temp id). 
         // Temp can be assigned later via a PUT request. 
         if (incomingTempId != null) {
-            System.out.println("YES Temp Id provided");  
             Temp incomingTemp = tempRepository.findById(incomingTempId)
                     .orElseThrow(() -> new ResourceNotFoundException("No Temp with id = " + incomingTempId + " found."));
             List<Job> assignedJobs = jobRepository.findByDateBetween(incomingStartDate, incomingEndDate, incomingTempId);
@@ -83,11 +79,11 @@ public class JobService {
 		}
 	}
 	
-	protected void checkStartDateIsNotAfterEndDate(Date starDate, Date endDate) {
+	private void checkStartDateIsNotAfterEndDate(Date starDate, Date endDate) {
 	 // Check that the endDate is not prior to the startDate
         if (starDate.compareTo(endDate) > 0) {
             throw new JobDatesClashException("Failed to create job. " +
-                          "Start date needs to be same date or prior to the end date.");
+                          "Start date needs to be same date or prior to end date.");
         }
 	}
 	
@@ -98,7 +94,7 @@ public class JobService {
 		jobRepository.deleteById(id);;
 	}
 	
-	protected void updateJobDate(Job existingJob, 
+	private void updateJobDate(Job existingJob, 
                             Date startDateRequest, 
                             Date endDateRequest, 
                             Date existingStartDate, 
@@ -113,13 +109,13 @@ public class JobService {
         }
         else if (startDateRequest != null && 
                 startDateRequest.compareTo(existingEndDate) <= 0 &&
-                jobRepository.findByStartDateBetween(startDateRequest, existingEndDate, tempId).size() == 0) {
+                jobRepository.findByDateBetween(startDateRequest, existingEndDate, tempId).size() == 0) {
             checkStartDateIsNotAfterEndDate(startDateRequest, existingEndDate);
             existingJob.setStartDate(startDateRequest);
         }
         else if (endDateRequest != null &&
                 existingStartDate.compareTo(endDateRequest) <= 0 &&
-                jobRepository.findByEndDateBetween(existingStartDate, endDateRequest, tempId).size() == 0) {
+                jobRepository.findByDateBetween(existingStartDate, endDateRequest, tempId).size() == 0) {
             checkStartDateIsNotAfterEndDate(existingStartDate, endDateRequest);
             existingJob.setEndDate(endDateRequest);
         }	    
@@ -162,7 +158,7 @@ public class JobService {
 					endDateRequest, 
 					existingStartDate, 
 					existingEndDate, 
-					existingJob.getTemp().getId());
+					existingTemp.getId());
 		} 
 		if (tempIdRequest == null && existingTemp == null && startDateRequest != null && endDateRequest == null){
             checkStartDateIsNotAfterEndDate(startDateRequest, existingEndDate);
