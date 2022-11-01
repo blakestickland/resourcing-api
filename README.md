@@ -20,55 +20,21 @@ https://github.com/blakestickland/resourcing-api
 * A Temp can have many jobs, as long as the dates don't clash.
 
 ## Endpoints
-***
-  * "/"
-    * GET   Health Check    returns “Hello World!!”         200 OK
-***
-### Jobs
-  * "/jobs"
-    * GET   Return all jobs. Returns JSON array of results. 200 OK or 204 NO CONTENT
-***
-  * "/jobs?assigned={TRUE | FALSE}"
-    * GET   Return all jobs that have been assigned.        200 OK or 204 NO CONTENT
-            Returns JSON array
-***
-  * "/jobs/{job_id}"
-    * GET   Returns job associated with job id.             200 OK or 404 NOT FOUND
-***
-***
-  * "/jobs"
-    * POST  Create job; (requires a body)                   201 created or 400 BAD REQUEST
-***
-  * "/jobs/{job_id}"
-    * PATCH Update job; Alter name, start date, end date    200 OK or 400 BAD REQUEST
-                        or Temp assigned to job
-                        requires a body
-***
-***
-  * "/jobs/{job_id}"
-    * DELETE  Delete job by id                              204 NO CONTENT or 404 NOT FOUND 
-***
-### Temps
-  * "/temps"
-    * GET   Return all temps.                               200 OK or 204 NO CONTENT
-            Returns JSON array of results.
-***
-  * "/temps?jobId={job_id}"
-    * GET   Return all temps available based on specified   200 OK or 204 NO CONTENT or 404 NOT FOUND
-            job's date range.
-            Returns JSON array of results.
-***
-  * "/temps/{temp_id}"
-    * GET   Returns temp associated with temp id.           200 OK or 404 NOT FOUND
-***
-***
-  * "/temps"
-    * POST  Create temp; (requires a body)                  201 created or 400 BAD REQUEST
-***
-***
-  * "/temps/{temp_id}"
-    * DELETE  Delete temp by id                             204 NO CONTENT or 404 NOT FOUND 
-***
+| Endpoint | Method | Description                   | Status Code |
+| -------- | ------ | ----------------------------- | ----------- |
+| /        | GET    | Health Check returns “Hello World!!” | 200 OK |
+| /jobs    | GET    | Return all jobs. Returns JSON array of results. | 200 OK or 204 NO CONTENT |
+| /jobs?assigned={TRUE\|FALSE} | GET | Return all jobs that have been assigned. | 200 OK or 404 NOT FOUND |
+| /jobs/{job_id} | GET    | Returns job associated with job id.  | 200 OK or 404 NOT FOUND |
+| /jobs    | POST   | Create job; (requires a body)        | 201 CREATED or 400 BAD REQUEST |
+| /jobs/{job_id}  | PATCH | Update start date, end date or Temp assigned to job (requires a body) | 200 OK or 400 BAD REQUEST |
+| /jobs/{job_id} | DELETE | Delete job by id         | 204 NO CONTENT or 404 NOT FOUND |
+| /temps   | GET    | Return all temps in a JSON array. | 200 OK or 204 NO CONTENT |
+| /temps?jobId={job_id} | GET    | Return all temps available based on specified job's date range. Returns JSON array of results. | 200 OK or 204 NO CONTENT or 404 NOT FOUND |
+| /temps/{temp_id} | GET    | Returns temp associated with temp id. | 200 OK or 404 NOT FOUND |
+| /temps  | POST    | Create temp; (requires a body) | 201 CREATED or 400 BAD REQUEST |
+| /temps/{temp_id}  | DELETE    | Delete temp by id  | 204 NO CONTENT or 404 NOT FOUND |
+
 
 ### Example JSON Body for POST request to create new Job database entry: 
 
@@ -79,7 +45,7 @@ https://github.com/blakestickland/resourcing-api
         "endDate": "2022-10-01"
     }
 ```
-        or 
+or 
 ```
     {
         "name": "Develop a REST API using Java / Spring Boot with SQL persistence",
